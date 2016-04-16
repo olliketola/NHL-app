@@ -4,16 +4,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+
 
 public class GamesActivity extends AppCompatActivity implements GetResponse {
 
@@ -22,6 +29,16 @@ public class GamesActivity extends AppCompatActivity implements GetResponse {
     private ListView listView;
     public String data;
     private JSONObject job;
+    private String date;
+    public TextView currentDate;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.calendar, menu);
+        return true;
+     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +46,13 @@ public class GamesActivity extends AppCompatActivity implements GetResponse {
         setContentView(R.layout.activity_games);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        currentDate = (TextView)findViewById(R.id.date);
+        DateFormat df = new SimpleDateFormat("dd MM yyyy");
+        String date = df.format(Calendar.getInstance().getTime());
+        currentDate.setText(date);
+
+
 
         executeServerReq();
         requestServer.execute();
